@@ -10,8 +10,6 @@ import (
 	"encoding/json"
 	"net/http"
 	"time"
-
-	log "github.com/molotovtv/go-logger"
 )
 
 // Version of the client.
@@ -241,7 +239,8 @@ func (c *client) send(msgs []message) {
 
 // Upload serialized batch message.
 func (c *client) upload(b []byte) error {
-	log.Infof("[MTVSEGMENT] - Attempting upload to segment (%d bytes)", len(b))
+	segmentBatchUploadCount.Inc()
+	segmentBatchUploadSize.Set(float64(len(b)))
 	url := c.Endpoint + "/v1/batch"
 	req, err := http.NewRequest("POST", url, bytes.NewReader(b))
 	if err != nil {
