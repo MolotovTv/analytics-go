@@ -1,4 +1,4 @@
-module github.com/segmentio/analytics-go/v3
+module github.com/molotovtv/analytics-go/v3
 
 go 1.14
 
