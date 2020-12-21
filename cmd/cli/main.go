@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/segmentio/analytics-go"
+	"github.com/molotovtv/analytics-go/v3"
 	"github.com/segmentio/conf"
 )
 

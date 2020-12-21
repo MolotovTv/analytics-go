@@ -3,9 +3,10 @@ package main
 import (
 	"fmt"
 
-	"github.com/segmentio/analytics-go"
+	"time"
+
+	"github.com/molotovtv/analytics-go/v3"
 )
-import "time"
 
 func main() {
 	client, _ := analytics.NewWithConfig("h97jamjwbh", analytics.Config{
