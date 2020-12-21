@@ -100,6 +100,7 @@ type messageQueue struct {
 
 func (q *messageQueue) push(m message) (b []message) {
 	if (q.bytes + m.size()) > q.maxBatchBytes {
+		segmentBatchUploadTriggerCount.WithLabelValues("maxBatchBytes").Inc()
 		b = q.flush()
 	}
 
@@ -111,6 +112,7 @@ func (q *messageQueue) push(m message) (b []message) {
 	q.bytes += len(m.json)
 
 	if b == nil && len(q.pending) == q.maxBatchSize {
+		segmentBatchUploadTriggerCount.WithLabelValues("maxBatchSize").Inc()
 		b = q.flush()
 	}
 

@@ -223,6 +223,7 @@ func (c *client) Close() (err error) {
 
 // Asychronously send a batched requests.
 func (c *client) sendAsync(msgs []message, wg *sync.WaitGroup, ex *executor) {
+	segmentBatchUploadMessagesGauge.Set(float64(len(msgs)))
 	wg.Add(1)
 
 	if !ex.do(func() {
@@ -349,6 +350,7 @@ func (c *client) loop() {
 			c.push(&mq, msg, wg, ex)
 
 		case <-tick.C:
+			segmentBatchUploadTriggerCount.WithLabelValues("interval").Inc()
 			c.flush(&mq, wg, ex)
 
 		case <-c.quit:
