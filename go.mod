@@ -1,4 +1,4 @@
-module github.com/molotovtv/analytics-go
+module github.com/molotovtv/analytics-go/v3
 
 go 1.15
 
