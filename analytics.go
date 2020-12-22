@@ -297,13 +297,14 @@ func (c *client) upload(b []byte) error {
 	req.Header.Add("Content-Length", strconv.Itoa(len(b)))
 	req.SetBasicAuth(c.key, "")
 
+	t := time.Now()
 	res, err := c.http.Do(req)
 
 	if err != nil {
 		c.errorf("sending request - %s", err)
 		return err
 	}
-
+	segmentUploadTime.Observe(time.Since(t).Seconds())
 	defer res.Body.Close()
 	return c.report(res)
 }

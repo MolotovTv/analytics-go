@@ -24,6 +24,7 @@ func (e *executor) do(task func()) (ok bool) {
 	if e.size != e.cap {
 		e.queue <- task
 		e.size++
+		segmentBatchConcurrentRequestsGauge.Set(float64(e.size))
 		ok = true
 	}
 
@@ -49,5 +50,6 @@ func (e *executor) run(task func()) {
 func (e *executor) done() {
 	e.mutex.Lock()
 	e.size--
+	segmentBatchConcurrentRequestsGauge.Set(float64(e.size))
 	e.mutex.Unlock()
 }
